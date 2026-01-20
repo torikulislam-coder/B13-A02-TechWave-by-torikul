@@ -35,6 +35,14 @@
         .social-icon {
             filter: brightness(0.8) invert(1);
         }
+        .mobile-menu {
+            transition: all 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .mobile-menu.active {
+            max-height: 300px;
+        }
     </style>
 </head>
 <body class="antialiased overflow-x-hidden">
@@ -52,24 +60,56 @@
                 videoElement.msRequestFullscreen();
             }
         }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobileMenu').classList.remove('active');
+            });
+        });
     </script>
 
-    <nav class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+    <nav class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center relative">
         <div class="text-2xl font-extrabold tracking-tight">
             Tech<span class="text-gradient">Wave</span>
         </div>
         
+        <!-- Desktop Menu -->
         <div class="hidden md:flex space-x-10 text-sm font-medium text-gray-400">
             <a href="#" class="hover:text-white transition">About</a>
             <a href="#" class="hover:text-white transition">Episodes</a>
             <a href="#" class="hover:text-white transition">Host</a>
         </div>
 
-        <button class="gradient-main px-6 py-2.5 rounded-full text-sm font-bold text-white flex items-center hover:opacity-90 transition">
+        <!-- Mobile Menu Toggle Button -->
+        <button class="md:hidden flex items-center" onclick="toggleMobileMenu()">
+            <img src="./assets/hamburger-menu.png" class="w-6 h-6" alt="Menu">
+        </button>
+
+        <!-- Desktop Subscribe Button -->
+        <button class="hidden md:flex gradient-main px-6 py-2.5 rounded-full text-sm font-bold text-white flex items-center hover:opacity-90 transition">
             <img src="./assets/ArrowRight.png" class="w-4 h-4 mr-2 " alt="subscribe">
             Subscribe 
         </button>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu bg-[#1a0726] border-t border-white/10 md:hidden">
+        <div class="px-6 py-4 space-y-4">
+            <a href="#" class="block text-gray-300 hover:text-white transition font-medium">About</a>
+            <a href="#" class="block text-gray-300 hover:text-white transition font-medium">Episodes</a>
+            <a href="#" class="block text-gray-300 hover:text-white transition font-medium">Host</a>
+            <button class="w-full gradient-main px-6 py-2.5 rounded-full text-sm font-bold text-white flex items-center justify-center hover:opacity-90 transition mt-4">
+                <img src="./assets/ArrowRight.png" class="w-4 h-4 mr-2 " alt="subscribe">
+                Subscribe 
+            </button>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="relative pt-12 pb-24 text-center bg-cover bg-center" style="background-image: url('./assets/hero-bg.png');">
